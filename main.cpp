@@ -1,7 +1,7 @@
 #include <iostream>
 #include "include/say.h"
 
-char boardA[8][9] =
+char boardMain[8][9] =
 {
 
 "B+B+B+B+",
@@ -46,11 +46,12 @@ int main ()
     // Positional Variables
     std::string notationI; 
     piecePosition initPosition;
+    std::set<std::string> validMoves;
 
     while (running && noWinner)
     {
         // Display the Board
-        displayBoard(boardBase, 8, 8);
+        displayBoard(boardMain, 8, 8);
 
         // Get input 
         std::cout << "Input: ";
@@ -62,9 +63,21 @@ int main ()
         }
         // Parse & Validate Input 
         initPosition = getInitPosition(notationI);
+        std::cout << "xPos: " << initPosition.xPosition << '\n';
+        std::cout << "yPos: " << initPosition.yPosition << '\n';
 
-        std::cout << boardBase[initPosition.xPosition][initPosition.yPosition] << "\n";
+        std::cout << "Current Piece: " << boardMain[initPosition.xPosition][initPosition.yPosition] << "\n";
 
+        // Display valid moves
+        validMoves = getValidMoves(boardMain, initPosition);
+
+        std::cout << "Valid Moves:\n";
+        for (auto s : validMoves)
+        {
+            std::cout << s << '\n'; 
+        }
+
+        std::cout << "-----------------\n";
         // Return new position
     }
 
