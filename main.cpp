@@ -15,7 +15,7 @@ char boardA[8][9] =
 
 };
 
-const char boardBase[8][9] =
+const char boardBase[8][9] = // board[Y][X]
 {
 
 "#+#+#+#+", //0
@@ -29,7 +29,7 @@ const char boardBase[8][9] =
 
 };
 
-const std::string test[] = 
+const char test[3][4] =  
 {
     "ABC",
     "DEF",
@@ -50,14 +50,20 @@ int main ()
     while (running && noWinner)
     {
         // Display the Board
-        displayBoard();
+        displayBoard(boardBase, 8, 8);
 
         // Get input 
+        std::cout << "Input: ";
         std::cin >> notationI;
+
+        if (notationI == "QQ")
+        {
+            break;
+        }
         // Parse & Validate Input 
         initPosition = getInitPosition(notationI);
 
-        std::cout << test[initPosition.xPosition][initPosition.yPosition] << "\n";
+        std::cout << boardBase[initPosition.xPosition][initPosition.yPosition] << "\n";
 
         // Return new position
     }

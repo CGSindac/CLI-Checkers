@@ -1,10 +1,8 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <cctype>
 #pragma once
-
-// Boards
-
 
 struct piecePosition
 {
@@ -13,6 +11,7 @@ struct piecePosition
 };
 
 
-void testing();
 piecePosition getInitPosition(const std::string);
-void displayBoard(std::string board[]);
+
+
+void displayBoard(const char board[][9], int xMax, int yMax);
