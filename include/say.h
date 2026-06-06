@@ -29,6 +29,8 @@ piecePosition getInitPosition(const std::string);
 
 std::set<std::string> getValidMoves(const char board[][9], piecePosition initialPos);
 
-void movePiece(const char board[][9], piecePosition initialPos);
+// void getValidTakes();
+
+// void movePiece(const char board[][9], piecePosition initialPos);
 
 void displayBoard(const char board[][9], int xMax, int yMax);

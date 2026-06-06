@@ -66,7 +66,7 @@ int main ()
         std::cout << "xPos: " << initPosition.xPosition << '\n';
         std::cout << "yPos: " << initPosition.yPosition << '\n';
 
-        std::cout << "Current Piece: " << boardMain[initPosition.xPosition][initPosition.yPosition] << "\n";
+        std::cout << "Current Piece: " << boardMain[initPosition.yPosition][initPosition.xPosition] << "\n";
 
         // Display valid moves
         validMoves = getValidMoves(boardMain, initPosition);
