@@ -20,6 +20,7 @@ bool inBounds (const piecePosition &position, int xShift, int yShift, int xMax, 
 }
 void getValidTakes(std::set<std::string> &moveList, char piece, const char board[][9], int xPos, int yPos, std::string prevTake = "")
 {   
+    // std::cout <<"\nPiece: " << piece << "\n";
     piecePosition currPosition {xPos, yPos};
     std::stringstream temp;
 
@@ -61,6 +62,46 @@ void getValidTakes(std::set<std::string> &moveList, char piece, const char board
             getValidTakes(moveList,piece,board,xPos - 2, yPos - 2, move);
         }
         
+    }else if (piece == BLACK)
+    {
+        // Top Right Daigonal
+        if  (   board[yPos + 1][xPos + 1] == WHITE && board[yPos + 2][xPos + 2] != WHITE
+                && inBounds(currPosition, +1, +1, XMAX, YMAX)
+                && inBounds(currPosition, +2, +2, XMAX, YMAX)
+            )
+        {
+            // std::cout << "\nFlag 3-1\n";
+            temp.str("");
+            temp.clear();
+
+            temp << prevTake << 'x' << (char)('a' + (xPos + 2)) << (char)((yPos + 2 + 1) + '0');
+
+            std::string move = temp.str();
+
+            moveList.insert(move);
+
+            getValidTakes(moveList,piece,board,xPos + 2, yPos + 2, move);
+        }
+
+        // Top Left Diagonal
+        if  (   board[yPos + 1][xPos - 1] == WHITE && board[yPos + 2][xPos - 2] != WHITE
+                && inBounds(currPosition, -1, +1, XMAX, YMAX)
+                && inBounds(currPosition, -2, +2, XMAX, YMAX)
+            )
+        {   
+            // std::cout << "\nFlag 3-2\n";
+
+            temp.str("");
+            temp.clear();
+
+            temp << prevTake << 'x' << (char)('a' + (xPos - 2)) << (char)((yPos + 2 + 1) + '0');
+
+            std::string move = temp.str();
+
+            moveList.insert(move);
+
+            getValidTakes(moveList,piece,board,xPos - 2, yPos + 2, move);
+        }
     }
 
     return;
@@ -74,7 +115,7 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
     std::stringstream tempMove;
     char currentPiece = board[initialPos.yPosition][initialPos.xPosition];
 
-    std::cout << "CURRENT PIECE: " <<currentPiece << '\n';
+    // std::cout << "CURRENT PIECE: " <<currentPiece << '\n';
     
     // Check piece type in initial position
 
@@ -85,7 +126,7 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
        
         if (board[initialPos.yPosition - 1][initialPos.xPosition + 1] != BLACK && inBounds(initialPos, +1, -1, XMAX, YMAX))  // check top right diagonal is free to move
         {   
-             std::cout << "\nFLAG 1";
+             //std::cout << "\nFLAG 1";
 
             tempMove.str(""); // Make sure SS is empty to format new moves
             tempMove.clear();
@@ -93,14 +134,11 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
             tempMove << 'm' << (char)('a' + (initialPos.xPosition + 1)) << (char)((initialPos.yPosition - 1 + 1) + '0');
 
             validMoves.insert(tempMove.str());
-        }else
-        {
-            getValidTakes(validMoves, currentPiece, board, initialPos.xPosition, initialPos.yPosition);
-        }
-        
+        }     
+
         if (board[initialPos.yPosition - 1][initialPos.xPosition - 1] != BLACK && inBounds(initialPos, -1, -1, XMAX, YMAX)) // check top left diagonal
         {
-             std::cout << "\nFLAG 2\n";
+             //std::cout << "\nFLAG 2\n";
 
             tempMove.str(""); // Make sure SS is empty to format new moves
             tempMove.clear();
@@ -108,15 +146,14 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
             tempMove << 'm' << (char)('a' + (initialPos.xPosition - 1)) << (char)((initialPos.yPosition - 1 + 1) + '0');
 
             validMoves.insert(tempMove.str());
-        }
-        
+        }      
     } else if ( currentPiece == BLACK)
     {
-        std::cout << "BOTTOM LEFT: " << board[initialPos.yPosition + 1][initialPos.xPosition - 1] << '\n';
-         std::cout << "BOTTOM RIGHT: " << board[initialPos.yPosition + 1][initialPos.xPosition + 1] << '\n';
-        if (board[initialPos.yPosition + 1][initialPos.xPosition + 1] != BLACK && inBounds(initialPos, +1, +1, XMAX, YMAX))  // check top right diagonal is free to move
+        //std::cout << "BOTTOM LEFT: " << board[initialPos.yPosition + 1][initialPos.xPosition - 1] << '\n';
+        //std::cout << "BOTTOM RIGHT: " << board[initialPos.yPosition + 1][initialPos.xPosition + 1] << '\n';
+        if (board[initialPos.yPosition + 1][initialPos.xPosition + 1] != WHITE && inBounds(initialPos, +1, +1, XMAX, YMAX))  // check top right diagonal is free to move
         {   
-             std::cout << "\nFLAG 1\n";
+             //std::cout << "\nFLAG 1\n";
 
             tempMove.str(""); // Make sure SS is empty to format new moves
             tempMove.clear();
@@ -126,9 +163,9 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
             validMoves.insert(tempMove.str());
         } 
         
-        if (board[initialPos.yPosition + 1][initialPos.xPosition - 1] != BLACK && inBounds(initialPos, -1, +1, XMAX, YMAX)) // check top left diagonal
+        if (board[initialPos.yPosition + 1][initialPos.xPosition - 1] != WHITE && inBounds(initialPos, -1, +1, XMAX, YMAX)) // check top left diagonal
         {
-             std::cout << "\nFLAG 2\n";
+             //std::cout << "\nFLAG 2\n";
 
             tempMove.str(""); // Make sure SS is empty to format new moves
             tempMove.clear();
@@ -138,6 +175,9 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
             validMoves.insert(tempMove.str());
         }
     }
+
+    getValidTakes(validMoves, currentPiece, board, initialPos.xPosition, initialPos.yPosition);
+
 
     return validMoves;
 }
