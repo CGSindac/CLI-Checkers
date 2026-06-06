@@ -38,7 +38,8 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
        
         if (board[initialPos.xPosition - 1][initialPos.yPosition + 1] != BLACK && inBounds(initialPos, -1, +1, XMAX, YMAX))  // check top right diagonal is free to move
         {   
-            std::cout << "\nFLAG 1";
+            // std::cout << "\nFLAG 1";
+            
             tempMove.str(""); // Make sure SS is empty to format new moves
             tempMove.clear();
 
@@ -49,7 +50,7 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
         
         if (board[initialPos.xPosition - 1][initialPos.yPosition - 1] != BLACK && inBounds(initialPos, -1, -1, XMAX, YMAX)) // check top left diagonal
         {
-            std::cout << "\nFLAG 2\n";
+            // std::cout << "\nFLAG 2\n";
 
             tempMove.str(""); // Make sure SS is empty to format new moves
             tempMove.clear();
@@ -59,6 +60,31 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
             validMoves.insert(tempMove.str());
         }
         
+    } else if ( currentPiece == BLACK)
+    {
+        if (board[initialPos.xPosition + 1][initialPos.yPosition + 1] != BLACK && inBounds(initialPos, +1, +1, XMAX, YMAX))  // check top right diagonal is free to move
+        {   
+            // std::cout << "\nFLAG 1";
+
+            tempMove.str(""); // Make sure SS is empty to format new moves
+            tempMove.clear();
+
+            tempMove << 'm' << (char)('a' + (initialPos.yPosition + 1)) << (char)((initialPos.xPosition + 1 + 1) + '0');
+
+            validMoves.insert(tempMove.str());
+        } 
+        
+        if (board[initialPos.xPosition + 1][initialPos.yPosition - 1] != BLACK && inBounds(initialPos, +1, -1, XMAX, YMAX)) // check top left diagonal
+        {
+            // std::cout << "\nFLAG 2\n";
+
+            tempMove.str(""); // Make sure SS is empty to format new moves
+            tempMove.clear();
+
+            tempMove << 'm' << (char)('a' + (initialPos.yPosition - 1)) << (char)((initialPos.xPosition + 1 + 1) + '0');
+
+            validMoves.insert(tempMove.str());
+        }
     }
 
     return validMoves;
