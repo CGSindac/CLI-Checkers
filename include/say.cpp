@@ -18,6 +18,55 @@ bool inBounds (const piecePosition &position, int xShift, int yShift, int xMax, 
 
     return true;
 }
+void getValidTakes(std::set<std::string> &moveList, char piece, const char board[][9], int xPos, int yPos, std::string prevTake = "")
+{   
+    piecePosition currPosition {xPos, yPos};
+    std::stringstream temp;
+
+    if (piece == WHITE)
+    {   
+        // Top Right Daigonal
+        if  (   board[yPos - 1][xPos + 1] == BLACK && board[yPos - 2][xPos + 2] != BLACK
+                && inBounds(currPosition, +1, -1, XMAX, YMAX)
+                && inBounds(currPosition, +2, -2, XMAX, YMAX)
+            )
+        {
+            temp.str("");
+            temp.clear();
+
+            temp << prevTake << 'x' << (char)('a' + (xPos + 2)) << (char)((yPos - 2 + 1) + '0');
+
+            std::string move = temp.str();
+
+            moveList.insert(move);
+
+            getValidTakes(moveList,piece,board,xPos + 2, yPos - 2, move);
+        }
+
+        // Top Left Diagonal
+        if  (   board[yPos - 1][xPos - 1] == BLACK && board[yPos - 2][xPos - 2] != BLACK
+                && inBounds(currPosition, -1, -1, XMAX, YMAX)
+                && inBounds(currPosition, -2, -2, XMAX, YMAX)
+            )
+        {
+            temp.str("");
+            temp.clear();
+
+            temp << prevTake << 'x' << (char)('a' + (xPos - 2)) << (char)((yPos - 2 + 1) + '0');
+
+            std::string move = temp.str();
+
+            moveList.insert(move);
+
+            getValidTakes(moveList,piece,board,xPos - 2, yPos - 2, move);
+        }
+        
+    }
+
+    return;
+    
+}
+
 
 std::set<std::string> getValidMoves(const char board[][9], piecePosition initialPos)
 {   
@@ -27,9 +76,6 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
 
     std::cout << "CURRENT PIECE: " <<currentPiece << '\n';
     
-
-     
-
     // Check piece type in initial position
 
     if ( currentPiece == WHITE )
@@ -47,6 +93,9 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
             tempMove << 'm' << (char)('a' + (initialPos.xPosition + 1)) << (char)((initialPos.yPosition - 1 + 1) + '0');
 
             validMoves.insert(tempMove.str());
+        }else
+        {
+            getValidTakes(validMoves, currentPiece, board, initialPos.xPosition, initialPos.yPosition);
         }
         
         if (board[initialPos.yPosition - 1][initialPos.xPosition - 1] != BLACK && inBounds(initialPos, -1, -1, XMAX, YMAX)) // check top left diagonal

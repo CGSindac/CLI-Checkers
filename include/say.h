@@ -29,7 +29,7 @@ piecePosition getInitPosition(const std::string);
 
 std::set<std::string> getValidMoves(const char board[][9], piecePosition initialPos);
 
-// void getValidTakes();
+void getValidTakes(std::set<std::string> &moveList, char piece, const char board[][9], int xPos, int yPos, std::string prevTake);
 
 // void movePiece(const char board[][9], piecePosition initialPos);
 
