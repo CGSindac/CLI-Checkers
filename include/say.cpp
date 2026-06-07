@@ -132,7 +132,7 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
         std::cout << "TOP LEFT: " << board[initialPos.yPosition - 1][initialPos.xPosition - 1] << '\n';
         std::cout << "TOP RIGHT: " << board[initialPos.yPosition - 1][initialPos.xPosition + 1] << '\n';
        
-        if (board[initialPos.yPosition - 1][initialPos.xPosition + 1] != BLACK && inBounds(initialPos, +1, -1, XMAX, YMAX))  // check top right diagonal is free to move
+        if (board[initialPos.yPosition - 1][initialPos.xPosition + 1] != BLACK && board[initialPos.yPosition - 1][initialPos.xPosition + 1] != WHITE && inBounds(initialPos, +1, -1, XMAX, YMAX))  // check top right diagonal is free to move
         {   
              //std::cout << "\nFLAG 1";
 
@@ -144,7 +144,7 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
             validMoves.insert(tempMove.str());
         }     
 
-        if (board[initialPos.yPosition - 1][initialPos.xPosition - 1] != BLACK && inBounds(initialPos, -1, -1, XMAX, YMAX)) // check top left diagonal
+        if (board[initialPos.yPosition - 1][initialPos.xPosition - 1] != BLACK && board[initialPos.yPosition - 1][initialPos.xPosition - 1] != WHITE && inBounds(initialPos, -1, -1, XMAX, YMAX)) // check top left diagonal
         {
              //std::cout << "\nFLAG 2\n";
 
@@ -159,7 +159,7 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
     {
         //std::cout << "BOTTOM LEFT: " << board[initialPos.yPosition + 1][initialPos.xPosition - 1] << '\n';
         //std::cout << "BOTTOM RIGHT: " << board[initialPos.yPosition + 1][initialPos.xPosition + 1] << '\n';
-        if (board[initialPos.yPosition + 1][initialPos.xPosition + 1] != WHITE && inBounds(initialPos, +1, +1, XMAX, YMAX))  // check top right diagonal is free to move
+        if (board[initialPos.yPosition + 1][initialPos.xPosition + 1] != WHITE && board[initialPos.yPosition + 1][initialPos.xPosition + 1] != BLACK && inBounds(initialPos, +1, +1, XMAX, YMAX))  // check top right diagonal is free to move
         {   
              //std::cout << "\nFLAG 1\n";
 
@@ -171,7 +171,7 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
             validMoves.insert(tempMove.str());
         } 
         
-        if (board[initialPos.yPosition + 1][initialPos.xPosition - 1] != WHITE && inBounds(initialPos, -1, +1, XMAX, YMAX)) // check top left diagonal
+        if (board[initialPos.yPosition + 1][initialPos.xPosition - 1] != WHITE && board[initialPos.yPosition + 1][initialPos.xPosition - 1] != BLACK && inBounds(initialPos, -1, +1, XMAX, YMAX)) // check top left diagonal
         {
              //std::cout << "\nFLAG 2\n";
 
