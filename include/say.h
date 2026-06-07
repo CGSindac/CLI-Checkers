@@ -33,7 +33,8 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
 
 void getValidTakes(std::set<std::string> &moveList, char piece, const char board[][9], int xPos, int yPos, std::string prevTake);
 
-void movePiece( char board[][9], piecePosition initialPos, std::string action);
+void movePiece(char board[][9], piecePosition initialPos, std::string action);
+void takeAction(char board[][9], piecePosition initialPos, std::string action);
 
 
 

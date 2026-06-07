@@ -8,8 +8,15 @@ piecePosition getPosition(const std::string strNotation) // Swap places due to a
     return {x_pos, y_pos - 1}; // Decrement x_pos because arrays are 0-indexed
 }
 
-piecePosition getPositionFromAction(const std::string action)
+piecePosition getPositionFromAction(const std::string action) 
 {
+    /*
+     *
+     * Sample action string notation ma4 / xf3
+     *                  [type of move] [X-index] [Y-index]
+     * 
+     */
+
      int y_pos = (int)(action[2]) - '0',
          x_pos = (int)tolower(action[1]) - 'a';
                                                                   
@@ -197,6 +204,26 @@ void movePiece(char board[][9], piecePosition initialPos, std::string action)
     // Swap with new position    
     std::swap(board[initialPos.yPosition][initialPos.xPosition], board[finalPos.yPosition][finalPos.xPosition]);
 
+}
+
+void takeAction(char board[][9], piecePosition initialPos, std::string action)
+{
+    if ((int)action[0] == 0) return; // Magic shit, checking if action is '\0' the ending of any string or simply checks if action is empty string;
+
+    std::string nextAction = action.substr(3); // 3rd index guaranteed to either be 'x' or '\0'
+
+    piecePosition finalPos = getPositionFromAction(action);
+
+    int xPosBetween = (initialPos.xPosition + finalPos.xPosition) / 2, 
+        yPosBetween = (initialPos.yPosition + finalPos.yPosition) / 2;
+
+    std::cout << "MID X: "  << xPosBetween << "\n";
+    std::cout << "MID Y: "  << yPosBetween << "\n";
+
+    board[yPosBetween][xPosBetween] = board[finalPos.yPosition][finalPos.xPosition];
+    std::swap(board[initialPos.yPosition][initialPos.xPosition], board[finalPos.yPosition][finalPos.xPosition]);
+
+    takeAction(board, finalPos, nextAction);
 }
 void displayBoard(const char board[][9], int xMax, int yMax)
 {
