@@ -1,10 +1,18 @@
 #include "say.h"
 
-piecePosition getInitPosition(const std::string strNotation) // Swap places due to array being in [y][x]
-{                                                            
-    int y_pos = (int)(strNotation[1]) - '0';
-    int x_pos = (int)tolower(strNotation[0]) - 'a';
+piecePosition getPosition(const std::string strNotation) // Swap places due to array being in [y][x]
+{   
+    int y_pos = (int)(strNotation[1]) - '0',
+        x_pos = (int)tolower(strNotation[0]) - 'a';
+                                                                  
+    return {x_pos, y_pos - 1}; // Decrement x_pos because arrays are 0-indexed
+}
 
+piecePosition getPositionFromAction(const std::string action)
+{
+     int y_pos = (int)(action[2]) - '0',
+         x_pos = (int)tolower(action[1]) - 'a';
+                                                                  
     return {x_pos, y_pos - 1}; // Decrement x_pos because arrays are 0-indexed
 }
 
@@ -181,7 +189,15 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
 
     return validMoves;
 }
+void movePiece(char board[][9], piecePosition initialPos, std::string action)
+{
+    // Get Final Position
+    piecePosition finalPos = getPositionFromAction(action);
+    
+    // Swap with new position    
+    std::swap(board[initialPos.yPosition][initialPos.xPosition], board[finalPos.yPosition][finalPos.xPosition]);
 
+}
 void displayBoard(const char board[][9], int xMax, int yMax)
 {
    for (int i = 0; i < yMax ; i++ )
