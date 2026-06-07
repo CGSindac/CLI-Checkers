@@ -44,9 +44,10 @@ int main ()
     bool noWinner = true;
 
     // Positional Variables
-    std::string notationI; 
+    std::string notationI, action; 
     piecePosition initPosition;
     std::set<std::string> validMoves;
+    
 
     while (running && noWinner)
     {
@@ -57,25 +58,39 @@ int main ()
         std::cout << "Input: ";
         std::cin >> notationI;
 
-        if (notationI == "QQ")
-        {
-            break;
-        }
-        // Parse & Validate Input 
-        initPosition = getInitPosition(notationI);
-        std::cout << "xPos: " << initPosition.xPosition << '\n';
-        std::cout << "yPos: " << initPosition.yPosition << '\n';
-
-        std::cout << "Current Piece: " << boardMain[initPosition.yPosition][initPosition.xPosition] << "\n";
+        initPosition = getPosition(notationI);
+        action = notationI.substr(2);
 
         // Display valid moves
         validMoves = getValidMoves(boardMain, initPosition);
+
+        // Check if action is valid
+        auto it = validMoves.find(action);
+        if (it != validMoves.end()) movePiece(boardMain, initPosition, action);
+        else std::cout << "Not A valid move\n";
 
         std::cout << "Valid Moves:\n";
         for (auto s : validMoves)
         {
             std::cout << s << '\n'; 
         }
+
+        std::cout << "Action: "<< action << "\n";
+
+        if (notationI == "QQ")
+        {
+            break;
+        }
+        // Parse & Validate Input 
+        
+        
+
+        std::cout << "Current Piece: " << boardMain[initPosition.yPosition][initPosition.xPosition] << "\n";
+
+        
+        
+
+        
 
         std::cout << "-----------------\n";
         // Return new position
