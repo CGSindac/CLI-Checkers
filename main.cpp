@@ -10,7 +10,7 @@ char boardMain[8][9] =
 "+#+B+#+#",
 "#+B+B+#+",
 "+W+W+W+W",
-"W+W+W+#+",
+"W+W+#+#+",
 "+W+W+W+W"
 
 };
@@ -42,57 +42,88 @@ int main ()
     // Main Loop
     bool running = true;
     bool noWinner = true;
+    int turnCount = 1;
+
+    char currentPiece;
 
     // Positional Variables
     std::string notationI, action; 
     piecePosition initPosition;
+
+    // Set to store Valid moves
     std::set<std::string> validMoves;
     
-
+    
+    /*----Main Game Loop----*/
     while (running && noWinner)
     {
         // Display the Board
+        std::cout << "\n---------------------\n";
+        std::cout << "TURN #" << turnCount << ": " << (turnCount % 2 == 0 ? "BLACK MOVE\n" : "WHITE MOVE\n");
         displayBoard(boardMain, 8, 8);
 
         // Get input 
-        std::cout << "Input: ";
-        std::cin >> notationI;
+        do{
+            std::cout << "Input: ";
+            std::cin >> notationI; if (notationI == "QQ") break;
 
-        initPosition = getPosition(notationI);
-        action = notationI.substr(2);
+            initPosition = getPosition(notationI);
+            currentPiece = boardMain[initPosition.yPosition][initPosition.xPosition];
 
-        // Display valid moves
-        validMoves = getValidMoves(boardMain, initPosition);
+            // First Check if proper Black or White pieces are chosen
+            if (turnCount % 2 != 0  && currentPiece != WHITE)
+            {   
+                std::cout << "FLAG 1\n";
+                continue;
+            } else if (turnCount % 2 == 0  && currentPiece != BLACK)
+            {
+                std::cout << "FLAG 2\n";
+                continue;
+            }
 
-        // Check if action is valid
-        auto it = validMoves.find(action);
-        if (it != validMoves.end()) movePiece(boardMain, initPosition, action);
-        else std::cout << "Not A valid move\n";
+            // Get action from input notation
+            action = notationI.substr(2);
 
-        std::cout << "Valid Moves:\n";
-        for (auto s : validMoves)
-        {
-            std::cout << s << '\n'; 
-        }
+            validMoves = getValidMoves(boardMain, initPosition);
 
-        std::cout << "Action: "<< action << "\n";
+            // Check if selected piece has valid actions
+            if (validMoves.empty())
+            {
+                std::cout << "Piece has no valid action, choose another one.\n";
+                continue;
+            }
 
-        if (notationI == "QQ")
-        {
+            auto it = validMoves.find(action);
+
+            if (it != validMoves.end()) break;
+            else
+            {
+                std::cout << "\nNot A valid move\n";
+
+                std::cout << "Valid Moves:\n";
+                for (auto s : validMoves)
+                {
+                    std::cout << s << '\n'; 
+                }
+
+                continue;
+            } 
+            std::cout << "---------------------\n";
+            std::cout << "\n";
             break;
-        }
-        // Parse & Validate Input 
+
+        } while (true);
         
+        if (notationI == "QQ") break;
+        
+        if (action[0] == 'm') movePiece(boardMain, initPosition, action);
+        else takeAction(boardMain, initPosition, action);
         
 
         std::cout << "Current Piece: " << boardMain[initPosition.yPosition][initPosition.xPosition] << "\n";
 
-        
-        
-
-        
-
-        std::cout << "-----------------\n";
+        std::cout << "---------------------\n";
+        ++turnCount;
         // Return new position
     }
 
