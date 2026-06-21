@@ -4,14 +4,14 @@
 char boardMain[8][9] =
 {
 
-"B+B+#+B+",
-"+#+#+W+B",
-"B+B+B+B+",
-"+Q+B+#+#",
-"#+B+B+#+",
-"+W+#+W+W",
-"W+W+B+#+",
-"+W+W+#+W"
+"B+B+B+B+", //0
+"+B+B+B+B", //1
+"B+B+B+B+", //2
+"+#+#+#+#", //3
+"#+#+#+#+", //4
+"+W+W+W+W", //5
+"W+W+W+W+", //6
+"+W+W+W+W"  //7
 
 };
 
@@ -48,9 +48,8 @@ const char test[3][4] =
 int main ()
 {   
     // Main Loop
-    bool running = true;
-    bool noWinner = true;
     int turnCount = 1;
+    bool whiteWin = true;
 
     char currentPiece;
 
@@ -66,12 +65,21 @@ int main ()
     
     
     /*----Main Game Loop----*/
-    while (running && noWinner)
+    while (true)
     {   
         // Get number of pieces for checking
         blackPieceCount = countPieces(boardMain, BLACK, XMAX, YMAX);
         whitePieceCount = countPieces(boardMain, WHITE, XMAX, YMAX);
 
+        if (blackPieceCount == 0)
+        {
+            whiteWin = true;
+            break;
+        }else if (whitePieceCount == 0)
+        {
+            whiteWin = false;
+            break;
+        }
 
         // Display the Board
         std::cout << "\n---------------------\n";
@@ -90,11 +98,11 @@ int main ()
             // First Check if proper Black or White pieces are chosen
             if (turnCount % 2 != 0  && (currentPiece != WHITE && currentPiece != QWHITE))
             {   
-                std::cout << "FLAG 1\n";
+                std::cout << "Please select a WHITE piece\n";
                 continue;
             } else if (turnCount % 2 == 0  && (currentPiece != BLACK && currentPiece != QBLACK))
             {
-                std::cout << "FLAG 2\n";
+                std::cout << "Please select a BLACK piece\n";
                 continue;
             }
 
@@ -115,7 +123,7 @@ int main ()
             if (it != validMoves.end()) break;
             else
             {
-                std::cout << "\nNot A valid move\n";
+                std::cout << "!!Not A valid move!!\n";
 
                 std::cout << "Valid Moves:\n";
                 for (auto s : validMoves)
@@ -137,15 +145,12 @@ int main ()
         else takeAction(boardMain, initPosition, action);
 
         updateBoardPieces(boardMain);
-        
-
-        std::cout << "Current Piece: " << boardMain[initPosition.yPosition][initPosition.xPosition] << "\n";
-
         std::cout << "---------------------\n";
         ++turnCount;
         // Return new position
     }
 
+    std::cout << "\n!!!---WINNER IS " << (whiteWin ? "WHITE" : "BLACK") << "---!!!\n";
 
     return 0;
 }

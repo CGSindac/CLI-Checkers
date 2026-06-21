@@ -305,14 +305,11 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
     std::stringstream tempMove;
     char currentPiece = board[initialPos.yPosition][initialPos.xPosition];
 
-    std::cout << "CURRENT PIECE: " <<currentPiece << '\n';
     
     // Check piece type in initial position
 
     if ( currentPiece == WHITE || currentPiece == QWHITE || currentPiece == QBLACK )
     {   
-        std::cout << "TOP LEFT: " << board[initialPos.yPosition - 1][initialPos.xPosition - 1] << '\n';
-        std::cout << "TOP RIGHT: " << board[initialPos.yPosition - 1][initialPos.xPosition + 1] << '\n';
        
         if (board[initialPos.yPosition - 1][initialPos.xPosition + 1] != BLACK && 
             board[initialPos.yPosition - 1][initialPos.xPosition + 1] != WHITE && 
@@ -382,10 +379,7 @@ std::set<std::string> getValidMoves(const char board[][9], piecePosition initial
 
     if (currentPiece == QWHITE || currentPiece == QBLACK)
     {
-        std::cout << "QUEEN TAKES\n";
         std::vector<std::string> visited;
-        // visited.push_back(formatPosition('#', initialPos.xPosition, initialPos.yPosition));
-        // std::cout << formatPosition('#', initialPos.xPosition, initialPos.yPosition) << "\n";
         char copyBoard[8][9];
         memcpy(copyBoard, board, 72);
 
@@ -428,7 +422,6 @@ void takeAction(char board[][9], piecePosition initialPos, std::string action)
 {
     if ((int)action[0] == 0) return; // Magic shit, checking if action is '\0' the ending of any string or simply checks if action is empty string;
 
-    std::cout << "Taking--" << std::endl; 
     std::string nextAction = action.substr(3); // 3rd index guaranteed to either be 'x' or '\0'
 
     piecePosition finalPos = getPositionFromAction(action);
@@ -443,7 +436,7 @@ void takeAction(char board[][9], piecePosition initialPos, std::string action)
 }
 void displayBoard(const char board[][9], int xMax, int yMax)
 {
-    std::cout << "\n\n";
+    std::cout << "\n";
    for (int i = 0; i < yMax ; i++ )
    {
        std::cout << i + 1 << " | "; // Print Y indicators
