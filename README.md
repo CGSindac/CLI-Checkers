@@ -114,5 +114,26 @@ make
 If you do not have make in your unit, paste the following
 
 ```bash
-    g++ -o min.exe main.cpp include/say.cpp
+g++ -o min.exe main.cpp include/say.cpp
 ```
+
+3. To run Paste the following (For Windows)
+```bash
+./min
+```
+
+## Author
+
+CGSindac
+Date Completed 6/22/2026
+
+Made this to practice C++ and Compiling, Learned BFS for this thing (project got delayed due to this).
+
+Will optimize or cleanup code in the future, but currently learning other stuff along with C++.
+
+Some information may lack in the readme, feel free to contact me 
+
+Linkedin: linkedin.com/in/calix-gabriel-sindac-768014383/
+
+***o7***
+
