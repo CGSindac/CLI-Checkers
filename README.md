@@ -7,10 +7,10 @@ Gameplay requires 2 players, with each player recieving 12 pieces which will be 
 Each move is written in the following notation
 
 **Pieces**
--White
+- White
     - 'W' -> Basic piece for white
     - 'Q' -> King piece for white
--Black
+- Black
     - 'B' -> Basic piece for black
     - 'q' -> King piece for black
 
